@@ -617,8 +617,6 @@ def password_change(request, username, template_name='userena/password_form.html
             userena_signals.password_complete.send(sender=None,
                                                    user=user)
 
-            import ipdb
-            ipdb.set_trace()
             if success_url: redirect_to = success_url
             else: redirect_to = reverse('userena_password_change_complete',
                                         kwargs={'username': user.username})
