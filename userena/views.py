@@ -1,6 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, REDIRECT_FIELD_NAME
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import logout as Signout
 from django.views.generic import TemplateView
@@ -610,11 +611,14 @@ def password_change(request, username, template_name='userena/password_form.html
         form = pass_form(user=user, data=request.POST)
         if form.is_valid():
             form.save()
+            update_session_auth_hash(request, form.user)
 
             # Send a signal that the password has changed
             userena_signals.password_complete.send(sender=None,
                                                    user=user)
 
+            import ipdb
+            ipdb.set_trace()
             if success_url: redirect_to = success_url
             else: redirect_to = reverse('userena_password_change_complete',
                                         kwargs={'username': user.username})
