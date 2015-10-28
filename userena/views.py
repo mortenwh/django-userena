@@ -611,6 +611,9 @@ def password_change(request, username, template_name='userena/password_form.html
         form = pass_form(user=user, data=request.POST)
         if form.is_valid():
             form.save()
+            # TODO: this is against the default behaviour of Django 1.7 - it
+            # should probably only be done if it is specified in the settings
+            # that this is allowed - add check for settings variable..
             update_session_auth_hash(request, form.user)
 
             # Send a signal that the password has changed
