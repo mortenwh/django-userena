@@ -13,7 +13,6 @@ def merged_dict(dict_a, dict_b):
     dict_a.update(dict_b)
     return dict_a
 
-app_name = 'userena'
 urlpatterns = [
     # Signup, signin and signout
     url(r'^signup/$',
